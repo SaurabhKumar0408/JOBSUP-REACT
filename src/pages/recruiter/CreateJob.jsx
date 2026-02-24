@@ -22,6 +22,7 @@ function CreateJob() {
         job_type: "",
         application_deadline: "",
     });
+    
 
     useEffect(()=>{
         const fetchCompanies = async()=>{
@@ -43,6 +44,15 @@ function CreateJob() {
         };
         fetchCompanies();
     }, []);
+
+    useEffect(() => {
+    if (company_id) {
+        setFormData(prev => ({
+            ...prev,
+            company_id: company_id
+        }));
+    }
+}, [company_id]);
 
     const handleChange = (e) => {
         setFormData({
