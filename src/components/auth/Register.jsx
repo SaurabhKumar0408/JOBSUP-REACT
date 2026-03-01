@@ -43,12 +43,22 @@ function Register() {
 
             navigate('/login');
         }catch(err){
-            console.error(err.response.data);
-            setError(
-                err.response?.data?.error ||
-                err.response?.data?.detail ||
-                "Registration failed"
-            );
+            if (err.response?.data) {
+                const data = err.response.data;
+
+                if (typeof data === "string") {
+                    setError(data);
+                } else if (data.error) {
+                    setError(data.error);
+                } else if (data.detail) {
+                    setError(data.detail);
+                } else {
+                    setError("Registration failed");
+                }
+
+            } else {
+                setError("Server not reachable. Please try again.");
+            }
         }finally{
             setLoading(false);
         }
