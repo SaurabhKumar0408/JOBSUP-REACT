@@ -5,7 +5,7 @@ const isDevelopment = import.meta.env.MODE === 'development'
 const api = axios.create({
     baseURL: isDevelopment
         ? import.meta.env.VITE_API_URL
-        : import.meta.env.VITE_API_BASE_URL_DEPLOY, // ✅ FIXED
+        : import.meta.env.VITE_API_BASE_URL, // ✅ FIXED
 })
 
 api.interceptors.request.use(
