@@ -12,7 +12,7 @@ function Register() {
         password2 : "",
         role : "",
     })
-    const [error, setError] = useState(null)
+    const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
 
     const handleChange = (e) => {
@@ -43,21 +43,17 @@ function Register() {
 
             navigate('/login');
         }catch(err){
-            if (err.response?.data) {
-                const data = err.response.data;
-
-                if (typeof data === "string") {
-                    setError(data);
-                } else if (data.error) {
-                    setError(data.error);
-                } else if (data.detail) {
-                    setError(data.detail);
-                } else {
-                    setError("Registration failed");
-                }
-
-            } else {
-                setError("Server not reachable. Please try again.");
+            if (err.response?.data?.error) {
+                setError(err.response.data.error);
+            } 
+            else if (err.response?.data?.detail) {
+                setError(err.response.data.detail);
+            } 
+            else if (err.message) {
+                setError(err.message);
+            } 
+            else {
+                setError("Registration failed");
             }
         }finally{
             setLoading(false);

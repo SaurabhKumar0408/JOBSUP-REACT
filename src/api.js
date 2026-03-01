@@ -3,21 +3,20 @@ import axios from "axios"
 const isDevelopment = import.meta.env.MODE === 'development'
 
 const api = axios.create({
-    baseURL : isDevelopment ? import.meta.env.VITE_API_URL : import.meta.VITE_API_BASE_URL_DEPLOY,
+    baseURL: isDevelopment
+        ? import.meta.env.VITE_API_URL
+        : import.meta.env.VITE_API_BASE_URL_DEPLOY, // ✅ FIXED
 })
 
 api.interceptors.request.use(
-    (config) =>{
+    (config) => {
         const token = localStorage.getItem('accessToken');
-        if(token){
+        if (token) {
             config.headers.Authorization = `Bearer ${token}`
         }
         return config
     },
-    (error) =>{
-        return Promise.reject(error)
-    }
-    
+    (error) => Promise.reject(error)
 )
 
 api.interceptors.response.use(
@@ -25,15 +24,14 @@ api.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config
 
-        // If token expired
-        if (error.response?.status === 401 && !originalRequest._retry) {
+        if (error.response?.status === 401 && !originalRequest?._retry) {
             originalRequest._retry = true
 
             try {
                 const refresh = localStorage.getItem('refreshToken')
 
                 const res = await axios.post(
-                    `${import.meta.env.VITE_API_URL}/auth/refresh/`,
+                    `${import.meta.env.VITE_API_BASE_URL_DEPLOY}/auth/refresh/`, // also fix here
                     { refresh }
                 )
 
@@ -42,7 +40,7 @@ api.interceptors.response.use(
                 originalRequest.headers.Authorization = `Bearer ${res.data.access}`
                 return api(originalRequest)
 
-            } catch (err) {
+            } catch {
                 localStorage.removeItem('accessToken')
                 localStorage.removeItem('refreshToken')
                 window.location.href = "/login"
