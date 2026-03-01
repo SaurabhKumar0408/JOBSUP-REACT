@@ -3,7 +3,7 @@ import api from '../../api'
 import { useParams } from 'react-router-dom'
 
 function ApplicationToJob() {
-    const BASE_URL = import.meta.env.VITE_API_URL.replace(/\/$/, "");
+    const BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const { job_id } = useParams();
     const [job, setJob] = useState({
         id: "",
