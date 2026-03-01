@@ -3,6 +3,7 @@ import api from '../../api'
 import { useParams } from 'react-router-dom'
 
 function ApplicationToJob() {
+    const BASE_URL = import.meta.env.VITE_API_URL.replace(/\/$/, "");
     const { job_id } = useParams();
     const [job, setJob] = useState({
         id: "",
@@ -95,7 +96,7 @@ function ApplicationToJob() {
                             {app.resume && (
                                 <div className="mt-3">
                                     <a
-                                        href={`${import.meta.env.VITE_API_BASE_URL}${app.resume}`}
+                                        href={`${BASE_URL}${app.resume}`}
                                         target="_blank"
                                         rel="noreferrer"
                                         className="text-sm text-blue-600 font-medium hover:underline"
