@@ -43,18 +43,11 @@ function Register() {
 
             navigate('/login');
         }catch(err){
-            if (err.response?.data?.error) {
-                setError(err.response.data.error);
-            } 
-            else if (err.response?.data?.detail) {
-                setError(err.response.data.detail);
-            } 
-            else if (err.message) {
-                setError(err.message);
-            } 
-            else {
-                setError("Registration failed");
-            }
+            console.log("FULL ERROR:", err);
+            console.log("TYPE:", typeof err);
+            console.log("ERR KEYS:", Object.keys(err || {}));
+
+            setError("Test error message");
         }finally{
             setLoading(false);
         }
@@ -69,7 +62,7 @@ function Register() {
 
                 {error && (
                     <div className="bg-red-100 text-red-700 p-2 mb-4 rounded">
-                        {error}
+                        {String(error)}
                     </div>
                 )}
 
