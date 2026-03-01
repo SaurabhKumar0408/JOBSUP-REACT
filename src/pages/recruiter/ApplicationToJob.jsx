@@ -95,7 +95,7 @@ function ApplicationToJob() {
                             {app.resume && (
                                 <div className="mt-3">
                                     <a
-                                        href={`http://localhost:8000${app.resume}`}
+                                        href={`${import.meta.env.VITE_API_BASE_URL}${app.resume}`}
                                         target="_blank"
                                         rel="noreferrer"
                                         className="text-sm text-blue-600 font-medium hover:underline"
